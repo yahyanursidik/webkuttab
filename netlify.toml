@@ -1,0 +1,44 @@
+# Netlify reads this file from the repository root, and the Astro project lives
+# one level down, so `base` points at it. Netlify changes into that directory
+# before doing anything, which is also how it finds package.json and the lock
+# file to install from. `command` and `publish` are then resolved relative to
+# that base, so `dist` means kuttabts-website/dist.
+#
+# Without this file at the root, Netlify finds no build configuration and no
+# package.json, skips the build entirely, and publishes the bare repository
+# root. That directory has no index.html, so every URL returns Netlify's own
+# "Page not found".
+
+[build]
+  base = "kuttabts-website"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
+
+# Astro fingerprints everything under /_astro, so it can be cached forever.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The video and its poster are immutable once published; rename the file to
+# publish a new cut rather than overwriting it.
+[[headers]]
+  for = "/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

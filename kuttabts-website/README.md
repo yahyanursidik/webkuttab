@@ -66,6 +66,15 @@ exists. See `CONTENT-NEEDED.md` section 6.
 
 ## Deploying
 
-Netlify builds `npm run build` and publishes `dist/`. Configuration, security
-headers and asset caching are in `netlify.toml`. Set the production branch to
-`main` and enable deploy previews for pull requests.
+Netlify builds from `netlify.toml` **at the repository root**, one level above
+this folder. That file sets `base = "kuttabts-website"`, which is what makes
+Netlify find this project's `package.json`, install from the lock file, run
+`npm run build`, and publish `kuttabts-website/dist`.
+
+Do not move that file into this folder. Netlify only looks for build
+configuration at the repository root, and without it there it skips the build
+and publishes the bare repo root, which has no `index.html`, so every URL
+returns Netlify's own "Page not found".
+
+Set the production branch to `main` and enable deploy previews for pull
+requests. Security headers and asset caching are in the same file.
