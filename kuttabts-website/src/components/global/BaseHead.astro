@@ -1,0 +1,77 @@
+---
+import { site, addressLine } from '../../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path only, e.g. "/program/kuttab". Canonical is derived from it. */
+  path: string;
+  /** Set true only on the homepage, which carries the organisation schema. */
+  withOrganizationSchema?: boolean;
+}
+
+const { title, description, path, withOrganizationSchema = false } = Astro.props;
+
+const canonical = new URL(path, site.domain).href;
+// The site name is appended only when the page title does not already carry
+// it, so /program/kuttab does not render the name twice.
+const fullTitle =
+  path === '/' || title === site.name ? title : `${title} | ${site.name}`;
+
+/**
+ * Organisation schema. Only fields the school has confirmed are emitted: name,
+ * URL and postal address. No telephone, no sameAs, no founding date, no
+ * aggregate rating, because none of that is verified yet.
+ */
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'School',
+  name: site.name,
+  alternateName: site.madrasahName,
+  url: site.domain,
+  parentOrganization: {
+    '@type': 'Organization',
+    name: site.organization,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.address.street}, ${site.address.village}`,
+    addressLocality: site.address.district,
+    addressRegion: site.address.province,
+    addressCountry: 'ID',
+  },
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content="id_ID" />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+
+<meta name="geo.placename" content={addressLine()} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/favicon-180.png" />
+
+{
+  withOrganizationSchema && (
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(organizationSchema)}
+    />
+  )
+}

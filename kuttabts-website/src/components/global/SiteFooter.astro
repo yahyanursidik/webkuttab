@@ -1,0 +1,153 @@
+---
+import { site, addressLine, whatsappUrl } from '../../data/site';
+import { footerGroups } from '../../data/navigation';
+
+const year = new Date().getFullYear();
+const wa = whatsappUrl();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__identity">
+      <p class="site-footer__name">{site.name}</p>
+      <p class="site-footer__unit">{site.madrasahName}</p>
+      <p class="site-footer__org">Di bawah naungan {site.organization}</p>
+    </div>
+
+    {
+      footerGroups.map((group) => (
+        <nav class="site-footer__nav" aria-label={`Navigasi ${group.heading.toLowerCase()}`}>
+          <h2 class="site-footer__heading">{group.heading}</h2>
+          <ul class="list-plain site-footer__links">
+            {group.items.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
+
+    <div class="site-footer__contact">
+      <h2 class="site-footer__heading">Alamat</h2>
+      <address class="site-footer__address">
+        {site.address.street}<br />
+        {site.address.village}, Kecamatan {site.address.district}<br />
+        {site.address.regency}, {site.address.province}
+      </address>
+      {
+        /* Each channel renders only when the school has supplied it. No empty
+           labels and no placeholder numbers. */
+      }
+      {
+        (wa !== null || site.email !== null || site.mapsUrl !== null) && (
+          <ul class="list-plain site-footer__channels">
+            {wa !== null && (
+              <li>
+                <a href={wa}>WhatsApp sekolah</a>
+              </li>
+            )}
+            {site.email !== null && (
+              <li>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+              </li>
+            )}
+            {site.mapsUrl !== null && (
+              <li>
+                <a href={site.mapsUrl} rel="noopener">Lihat lokasi di peta</a>
+              </li>
+            )}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+
+  <div class="container">
+    <p class="site-footer__legal">
+      &copy; {year} {site.name}. {addressLine()}.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-top: var(--section-y-tight);
+    padding-bottom: var(--space-6);
+    border-top: 4px solid var(--brand-green-600);
+    background-color: var(--bg-muted);
+  }
+
+  /* Three columns, not the Product/Company/Resources/Legal template: identity,
+     the pages that exist, and the school's address. */
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-7);
+    padding-bottom: var(--space-7);
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__inner {
+      grid-template-columns: 1.3fr 1fr 1fr 1.1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  .site-footer__name {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.01em;
+  }
+
+  .site-footer__unit {
+    margin-top: var(--space-1);
+    color: var(--text-secondary);
+  }
+
+  .site-footer__org {
+    margin-top: var(--space-3);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer__heading {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .site-footer__links {
+    display: grid;
+    font-size: var(--text-sm);
+  }
+
+  /* Navigation lists get a 44px tap target. Links inside running prose keep
+     their natural line height; these are standalone controls. */
+  .site-footer__links a,
+  .site-footer__channels a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .site-footer__address {
+    font-size: var(--text-sm);
+    font-style: normal;
+    line-height: var(--leading-normal);
+  }
+
+  .site-footer__channels {
+    display: grid;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer__legal {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border-strong);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+  }
+</style>

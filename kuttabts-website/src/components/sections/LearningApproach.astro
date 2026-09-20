@@ -1,0 +1,62 @@
+---
+---
+
+<section class="section section--tight">
+  <div class="container approach">
+    <h2 class="approach__title">Bagaimana anak belajar</h2>
+    <div class="approach__body prose">
+      <p>
+        Anak tidak hanya menerima materi. Pembelajaran dirancang agar anak
+        mengamati, bertanya, mencoba, memahami, dan merefleksikan apa yang sudah
+        dipelajarinya.
+      </p>
+      <p>
+        Pendekatannya berpusat pada murid, kontekstual, dan mengajak anak
+        menyelidiki sendiri. Guru mendampingi prosesnya, bukan sekadar
+        menyampaikan materi lalu menilai hasilnya.
+      </p>
+      <p>
+        Tahun ajaran dibuka dengan masa matrikulasi. Pada masa ini sekolah
+        menguatkan adab dan melakukan asesmen diagnostik untuk mengenali titik
+        awal setiap anak.
+      </p>
+      <p class="approach__note">
+        Kultur kerja guru di Kuttab Tarbiyah Sunnah disebut <strong>Teach With Heart</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /*
+    Deliberately the quietest section on the page: one column, narrow measure,
+    no panel and no border. It gives the eye a rest between the curriculum data
+    above it and the activity listing below.
+  */
+  .approach {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 56rem) {
+    .approach {
+      grid-template-columns: 18rem 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .approach__title {
+    font-size: var(--text-h3);
+  }
+
+  .approach__body {
+    max-width: var(--measure-prose);
+  }
+
+  .approach__note {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+</style>

@@ -1,0 +1,400 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/content/PageHeader.astro';
+import CurriculumList from '../components/content/CurriculumList.astro';
+import ScheduleTable from '../components/content/ScheduleTable.astro';
+import {
+  kuttabSubjectGroups,
+  tahfizhAllocation,
+  curriculumBasis,
+  weeklyLoad,
+  teachingPrinciples,
+  assessment,
+  ACADEMIC_YEAR,
+} from '../data/school';
+
+const findGroup = (label: string) => kuttabSubjectGroups.find((g) => g.label === label);
+const diniyah = findGroup('Ilmu diniyah');
+const umum = findGroup('Pengetahuan umum');
+const jasmani = findGroup('Jasmani dan karya');
+const bahasa = findGroup('Bahasa');
+
+/*
+  The brief's sitemap lists /pendidikan/kurikulum, /al-quran, /diniyah and
+  /pembelajaran-umum as four routes. Everything verified about the last three
+  amounts to a subject list each, so four routes would have produced three
+  padded pages. They are sections with stable anchors here instead, and each
+  can be promoted to its own route once there is enough to fill one.
+*/
+const onThisPage = [
+  { id: 'kurikulum', label: 'Struktur kurikulum' },
+  { id: 'jadwal', label: 'Jadwal harian' },
+  { id: 'al-quran', label: 'Al-Qur’an' },
+  { id: 'diniyah', label: 'Ilmu diniyah' },
+  { id: 'pembelajaran-umum', label: 'Pembelajaran umum' },
+  { id: 'cara-belajar', label: 'Cara anak belajar' },
+  { id: 'penilaian', label: 'Penilaian' },
+];
+---
+
+<BaseLayout
+  title="Pendidikan di Kuttab"
+  description={`Struktur kurikulum, jadwal harian, dan cara belajar di Kuttab Tarbiyah Sunnah menurut kurikulum operasional tahun ajaran ${ACADEMIC_YEAR}.`}
+  path="/pendidikan"
+>
+  <PageHeader
+    title="Pendidikan di Kuttab"
+    lead={`Apa yang dipelajari anak dan bagaimana anak mempelajarinya, menurut kurikulum operasional satuan pendidikan tahun ajaran ${ACADEMIC_YEAR}.`}
+    breadcrumbs={[{ label: 'Beranda', href: '/' }]}
+  />
+
+  <nav class="section section--tight on-this-page" aria-label="Isi halaman">
+    <div class="container">
+      <h2 class="on-this-page__title">Isi halaman</h2>
+      <ul class="list-plain on-this-page__list">
+        {
+          onThisPage.map((item) => (
+            <li>
+              <a href={`#${item.id}`}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
+
+  <section class="section section--surface" id="kurikulum">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Struktur kurikulum {ACADEMIC_YEAR}</h2>
+        <p>
+          Kuttab menerapkan kurikulum mandiri yang memadukan
+          {' '}{curriculumBasis.frameworks.join(' dan ')}. Kurikulum Merdeka
+          diterapkan di {curriculumBasis.merdekaClasses}, sedangkan kelas
+          lainnya menggunakan Kurikulum 2013.
+        </p>
+      </div>
+
+      <CurriculumList />
+
+      <dl class="load">
+        {
+          weeklyLoad.map((row) => (
+            <div class="load__row">
+              <dt class="load__term">{row.classes}</dt>
+              <dd class="load__desc">{row.jp} JP per pekan</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="jadwal">
+    <div class="container schedule-block">
+      <div class="schedule-block__intro">
+        <h2>Jadwal harian</h2>
+        <p class="lead">
+          Hari belajar dimulai pukul 07.00 dan berakhir pukul 13.00, dibuka dan
+          ditutup dengan Tahfizh Al-Qur&rsquo;an.
+        </p>
+      </div>
+      <ScheduleTable />
+    </div>
+  </section>
+
+  <section class="section section--green" id="al-quran">
+    <div class="container quran">
+      <div>
+        <h2 class="quran__title">Al-Qur&rsquo;an</h2>
+        <p class="quran__body">
+          Tahfizh Al-Qur&rsquo;an memperoleh alokasi {tahfizhAllocation.jp}
+          {' '}{tahfizhAllocation.unit} pada {tahfizhAllocation.scope}, menurut
+          struktur kurikulum tahun ajaran {tahfizhAllocation.academicYear}.
+        </p>
+      </div>
+      <div class="quran__note">
+        <p>
+          Angka tersebut berlaku untuk Kuttab. Pembelajaran Al-Qur&rsquo;an di
+          TPQ dan TQA berjalan dengan pengaturannya sendiri, dan keterangannya
+          diberikan langsung oleh pengurus madrasah.
+        </p>
+        <p>
+          <a href="/program/tpq">TPQ Madrasah Tarbiyah Sunnah</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight" id="diniyah">
+    <div class="container topic">
+      <h2 class="topic__title">Ilmu diniyah</h2>
+      <div class="topic__body prose">
+        <p>
+          Sekolah menanamkan pondasi ilmu-ilmu Islam yang bersumber dari
+          Al-Qur&rsquo;an dan As-Sunnah sesuai pemahaman As-Salaf Ash-Shalih,
+          mengikuti manhaj Ahlus Sunnah wal Jama&rsquo;ah.
+        </p>
+        {
+          diniyah !== undefined && (
+            <p>
+              Mata pelajaran diniyah pada kurikulum {ACADEMIC_YEAR} mencakup{' '}
+              {diniyah.subjects.join(', ')}.
+              {bahasa !== undefined && ` Bahasa Arab diajarkan sebagai bagian dari kelompok bahasa.`}
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight section--muted" id="pembelajaran-umum">
+    <div class="container topic">
+      <h2 class="topic__title">Pembelajaran umum</h2>
+      <div class="topic__body prose">
+        <p>
+          Kurikulum menekankan pendidikan agama Islam, namun tetap
+          memperhatikan pengetahuan dasar dari ilmu umum. Keduanya berjalan
+          dalam hari belajar yang sama.
+        </p>
+        {
+          umum !== undefined && (
+            <p>
+              Pengetahuan umum pada kurikulum {ACADEMIC_YEAR} mencakup{' '}
+              {umum.subjects.join(' dan ')}, bersama Bahasa Indonesia.
+            </p>
+          )
+        }
+        {
+          jasmani !== undefined && (
+            <p>
+              Terdapat pula {jasmani.subjects.join(' dan ')} untuk sisi jasmani
+              dan keterampilan.
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cara-belajar">
+    <div class="container topic">
+      <h2 class="topic__title">Cara anak belajar</h2>
+      <div class="topic__body">
+        <p class="prose">
+          Program pembelajaran diterapkan di kelas dengan memperhatikan lima
+          hal berikut.
+        </p>
+        <ul class="list-plain principles">
+          {teachingPrinciples.map((item) => <li class="principles__item">{item}</li>)}
+        </ul>
+        <div class="prose principles__after">
+          <p>
+            Tahun ajaran dibuka dengan masa matrikulasi selama satu sampai dua
+            pekan. Masa ini digunakan untuk penguatan adab secara teori dan
+            praktik, penyesuaian belajar, serta asesmen diagnostik awal, baik
+            kognitif maupun non kognitif.
+          </p>
+          <p>
+            Guru menerapkan konsep <strong>Teach With Heart</strong>, yaitu
+            mendidik dengan sepenuh hati dan mendidik dengan cinta.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight section--surface" id="penilaian">
+    <div class="container topic">
+      <h2 class="topic__title">Penilaian</h2>
+      <div class="topic__body">
+        <p class="prose">{assessment.principle}</p>
+        <div class="assessment">
+          <div>
+            <h3 class="assessment__label">Formatif</h3>
+            <ul class="list-plain assessment__list">
+              {assessment.formative.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+          <div>
+            <h3 class="assessment__label">Sumatif</h3>
+            <ul class="list-plain assessment__list">
+              {assessment.summative.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .on-this-page {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .on-this-page__title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+
+  .on-this-page__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-6);
+  }
+
+  .on-this-page__list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+  }
+
+  .load {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-8);
+    margin: var(--space-6) 0 0;
+  }
+
+  .load__term {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .load__desc {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-h3);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  .schedule-block {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 56rem) {
+    .schedule-block {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .schedule-block__intro h2 {
+    max-width: 12ch;
+  }
+
+  .schedule-block__intro .lead {
+    margin-top: var(--space-5);
+    max-width: 40ch;
+  }
+
+  .quran {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 56rem) {
+    .quran {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .quran__title {
+    max-width: 14ch;
+  }
+
+  .quran__body {
+    margin-top: var(--space-5);
+    max-width: 46ch;
+    font-size: var(--text-lead);
+  }
+
+  .quran__note {
+    padding: var(--space-6);
+    border-radius: var(--radius-media);
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+  }
+
+  .quran__note > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .topic {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 56rem) {
+    .topic {
+      grid-template-columns: 18rem 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .topic__title {
+    font-size: var(--text-h3);
+  }
+
+  .topic__body {
+    max-width: var(--measure-prose);
+  }
+
+  .principles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  /* Five short labels read faster as a row of chips than as five bullet rows.
+     This is the only place chips are used, and they carry no state, so they
+     are plain bordered text rather than interactive-looking pills. */
+  .principles__item {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+  }
+
+  .principles__after {
+    margin-top: var(--space-6);
+  }
+
+  .assessment {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 30rem) {
+    .assessment {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  .assessment__label {
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--brand-green-600);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .assessment__list {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>

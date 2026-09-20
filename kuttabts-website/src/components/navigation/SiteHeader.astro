@@ -1,0 +1,261 @@
+---
+import { primaryNav, primaryCta } from '../../data/navigation';
+import { site } from '../../data/site';
+// Mark-only crop of the Kuttab lockup. The full lockup carries the school
+// name as artwork, which would duplicate the name rendered as text beside it
+// and be illegible at header size.
+import logoMark from '../../assets/logo-kuttab-mark.png';
+import { Image } from 'astro:assets';
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href="/">
+      <Image
+        src={logoMark}
+        alt=""
+        width={48}
+        height={48}
+        loading="eager"
+        class="site-header__logo"
+      />
+      <span class="site-header__names">
+        <span class="site-header__name">{site.name}</span>
+        <span class="site-header__unit">{site.madrasahName}</span>
+      </span>
+    </a>
+
+    <!--
+      Native details/summary drives the mobile menu: it opens, closes, and is
+      keyboard operable without any JavaScript. A small inline script only adds
+      Escape-to-close and closes the panel after a link is followed.
+    -->
+    <details class="nav" id="site-nav">
+      <summary class="nav__toggle" aria-label="Menu navigasi">
+        <span class="nav__toggle-bars" aria-hidden="true"></span>
+        <span class="nav__toggle-text">Menu</span>
+      </summary>
+
+      <nav class="nav__panel" aria-label="Navigasi utama">
+        <ul class="nav__list list-plain">
+          {
+            primaryNav.map((item) => (
+              <li>
+                <a class="nav__link" href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="button button--primary nav__cta" href={primaryCta.href}>
+          {primaryCta.label}
+        </a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  if (nav instanceof HTMLDetailsElement) {
+    const close = () => {
+      nav.open = false;
+    };
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && nav.open) {
+        close();
+        nav.querySelector('summary')?.focus();
+      }
+    });
+
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLAnchorElement) close();
+    });
+
+    // The panel is a dropdown below 56rem and a normal inline bar above it.
+    // Closing it on resize keeps the open attribute from leaking into the
+    // desktop layout.
+    const wide = window.matchMedia('(min-width: 56rem)');
+    wide.addEventListener('change', close);
+  }
+</script>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid var(--border-subtle);
+    background-color: var(--bg-page);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 72px;
+    padding-block: var(--space-3);
+  }
+
+  .site-header__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .site-header__logo {
+    width: 44px;
+    height: auto;
+  }
+
+  .site-header__names {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-header__name {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.01em;
+  }
+
+  .site-header__unit {
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    line-height: var(--leading-snug);
+  }
+
+  /* ---- Mobile: disclosure dropdown ---- */
+
+  .nav__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding-inline: var(--space-3);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-control);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .nav__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav__toggle-bars,
+  .nav__toggle-bars::before,
+  .nav__toggle-bars::after {
+    display: block;
+    width: 16px;
+    height: 2px;
+    background-color: var(--text-primary);
+  }
+
+  .nav__toggle-bars {
+    position: relative;
+  }
+
+  .nav__toggle-bars::before,
+  .nav__toggle-bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .nav__toggle-bars::before {
+    top: -5px;
+  }
+
+  .nav__toggle-bars::after {
+    top: 5px;
+  }
+
+  .nav__panel {
+    position: absolute;
+    right: var(--gutter);
+    left: var(--gutter);
+    top: calc(100% + var(--space-2));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-media);
+    background-color: var(--bg-surface);
+    box-shadow: var(--shadow-raised);
+  }
+
+  .nav__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav__link {
+    display: block;
+    padding-block: var(--space-3);
+    color: var(--text-primary);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+
+  .nav__link:hover {
+    color: var(--brand-green-700);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  .nav__cta {
+    margin-top: var(--space-2);
+  }
+
+  /* ---- 56rem and up: the panel is always visible, the toggle disappears ---- */
+
+  @media (min-width: 56rem) {
+    .nav__toggle {
+      display: none;
+    }
+
+    /* A closed <details> hides its content through ::details-content in current
+       Chromium, so the display override below is not enough on its own. Both
+       rules are needed for the desktop bar to render without the open
+       attribute, which keeps the menu usable with JavaScript disabled. */
+    .nav::details-content {
+      content-visibility: visible;
+      block-size: auto;
+    }
+
+    .nav__panel {
+      position: static;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-5);
+      padding: 0;
+      border: 0;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .nav__list {
+      flex-direction: row;
+      gap: var(--space-5);
+    }
+
+    .nav__link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font-size: var(--text-sm);
+    }
+
+    .nav__cta {
+      margin-top: 0;
+    }
+  }
+</style>

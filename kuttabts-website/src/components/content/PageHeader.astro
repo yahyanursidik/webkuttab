@@ -1,0 +1,75 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  /** Breadcrumb trail, excluding the current page. */
+  breadcrumbs: readonly { label: string; href: string }[];
+}
+
+const { eyebrow, title, lead, breadcrumbs } = Astro.props;
+---
+
+<header class="page-header">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol class="list-plain breadcrumbs__list">
+        {
+          breadcrumbs.map((crumb) => (
+            <li class="breadcrumbs__item">
+              <a href={crumb.href}>{crumb.label}</a>
+            </li>
+          ))
+        }
+        <li class="breadcrumbs__item" aria-current="page">{title}</li>
+      </ol>
+    </nav>
+
+    {eyebrow !== undefined && <p class="page-header__eyebrow">{eyebrow}</p>}
+    <h1 class="page-header__title">{title}</h1>
+    {lead !== undefined && <p class="page-header__lead">{lead}</p>}
+  </div>
+</header>
+
+<style>
+  .page-header {
+    padding-block: clamp(2rem, 4vw, 3.5rem) clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .breadcrumbs__item + .breadcrumbs__item::before {
+    content: '/';
+    margin-right: var(--space-2);
+    color: var(--border-strong);
+  }
+
+  /* The eyebrow here names the unit, which the H1 does not repeat. It is a
+     plain line of text, not a pill, and it is omitted when there is nothing
+     extra to say. */
+  .page-header__eyebrow {
+    margin-top: var(--space-6);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .page-header__title {
+    margin-top: var(--space-3);
+    max-width: 22ch;
+  }
+
+  .page-header__lead {
+    margin-top: var(--space-5);
+    max-width: 58ch;
+    color: var(--text-secondary);
+    font-size: var(--text-lead);
+  }
+</style>

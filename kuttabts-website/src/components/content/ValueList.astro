@@ -1,0 +1,57 @@
+---
+import { educationValues } from '../../data/school';
+---
+
+{
+  /*
+    A description list, not a card grid: these are five facets of one approach,
+    so they read as rows of a single idea rather than five separate products.
+  */
+}
+<dl class="values">
+  {
+    educationValues.map((value) => (
+      <div class="values__row">
+        <dt class="values__term">{value.title}</dt>
+        <dd class="values__desc">{value.body}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .values {
+    margin: var(--space-6) 0 0;
+  }
+
+  .values__row {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .values__row:last-child {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .values__term {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  .values__desc {
+    margin: 0;
+    max-width: var(--measure-prose);
+    color: var(--text-secondary);
+  }
+
+  @media (min-width: 48rem) {
+    .values__row {
+      grid-template-columns: 15rem 1fr;
+      gap: var(--space-6);
+      align-items: baseline;
+    }
+  }
+</style>

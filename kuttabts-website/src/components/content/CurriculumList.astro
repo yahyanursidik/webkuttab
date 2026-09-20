@@ -1,0 +1,67 @@
+---
+import { kuttabSubjectGroups } from '../../data/school';
+---
+
+<dl class="curriculum">
+  {
+    kuttabSubjectGroups.map((group) => (
+      <div class="curriculum__row">
+        <dt class="curriculum__term">{group.label}</dt>
+        <dd class="curriculum__desc">
+          <ul class="list-plain curriculum__subjects">
+            {group.subjects.map((subject) => (
+              <li>{subject}</li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .curriculum {
+    margin: var(--space-6) 0 0;
+  }
+
+  .curriculum__row {
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .curriculum__row:last-child {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  @media (min-width: 48rem) {
+    .curriculum__row {
+      display: grid;
+      grid-template-columns: 15rem 1fr;
+      gap: var(--space-6);
+      align-items: baseline;
+    }
+  }
+
+  .curriculum__term {
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-h3);
+    letter-spacing: -0.01em;
+  }
+
+  .curriculum__desc {
+    margin: var(--space-2) 0 0;
+  }
+
+  @media (min-width: 48rem) {
+    .curriculum__desc {
+      margin-top: 0;
+    }
+  }
+
+  .curriculum__subjects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    color: var(--text-secondary);
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+import PageHeader from './PageHeader.astro';
+import { site, whatsappUrl } from '../../data/site';
+
+interface Props {
+  unitName: string;
+  unitAbbr: string;
+}
+
+const { unitName, unitAbbr } = Astro.props;
+const wa = whatsappUrl(
+  `Assalamu'alaikum, saya ingin menanyakan pembelajaran ${unitAbbr} di Madrasah Tarbiyah Sunnah.`,
+);
+---
+
+{
+  /*
+    Deliberately short. The school has not supplied this unit's age range,
+    levels, schedule, method, memorisation target, capacity, fees or
+    registration flow, so none of those appear here in any form, including as
+    empty headings or placeholder text. The page states what is known and
+    routes the reader to a person who can answer. It grows when the unit sends
+    its data.
+  */
+}
+<PageHeader
+  eyebrow="Madrasah Tarbiyah Sunnah"
+  title={unitName}
+  breadcrumbs={[
+    { label: 'Beranda', href: '/' },
+    { label: 'Program', href: '/program' },
+  ]}
+/>
+
+<section class="section section--tight">
+  <div class="container prose">
+    <p class="lead">
+      {unitAbbr} diselenggarakan oleh Madrasah Tarbiyah Sunnah di
+      {' '}{site.address.village}, Kecamatan {site.address.district},
+      {' '}{site.address.regency}.
+    </p>
+    <p>
+      Untuk mengetahui pembelajaran yang sedang berjalan dan cara mendaftarkan
+      anak, silakan menghubungi pengurus madrasah secara langsung.
+    </p>
+
+    <div class="button-row unit__actions">
+      {
+        wa !== null && (
+          <a class="button button--primary" href={wa}>
+            Tanya pengurus lewat WhatsApp
+          </a>
+        )
+      }
+      <a class="button button--secondary" href="/kontak">
+        Lihat alamat dan kontak
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--muted section--tight">
+  <div class="container prose">
+    <h2>Program lain</h2>
+    <p>
+      <a href="/program/kuttab">Kuttab Tarbiyah Sunnah</a> adalah sekolah harian
+      untuk anak usia dasar, dengan kurikulum yang sudah dipublikasikan.
+    </p>
+  </div>
+</section>
+
+<style>
+  .unit__actions {
+    margin-top: var(--space-6);
+  }
+</style>

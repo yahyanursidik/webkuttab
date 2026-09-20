@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/content/PageHeader.astro';
+import ValueList from '../components/content/ValueList.astro';
+import { site } from '../data/site';
+import { visi, developmentAreas } from '../data/school';
+---
+
+<BaseLayout
+  title="Tentang sekolah"
+  description="Profil Kuttab Tarbiyah Sunnah, sekolah Islam berizin PKBM di Selacau, Batujajar, Kabupaten Bandung Barat, beserta Madrasah Tarbiyah Sunnah."
+  path="/tentang"
+>
+  <PageHeader
+    title="Tentang sekolah"
+    lead="Kuttab Tarbiyah Sunnah adalah sekolah Islam dengan izin berbentuk PKBM di Selacau, Batujajar, yang terbuka bagi siswa dengan berbagai latar belakang."
+    breadcrumbs={[{ label: 'Beranda', href: '/' }]}
+  />
+
+  <section class="section section--tight">
+    <div class="container about">
+      <h2 class="about__title">Lembaga</h2>
+      <div class="about__body prose">
+        <p>
+          Kuttab Tarbiyah Sunnah lahir dari idealisme untuk menyelenggarakan
+          sekolah Islam yang bermutu, berlandaskan Al-Qur'an dan As-Sunnah,
+          serta mengikuti manhaj Ahlus Sunnah wal Jama'ah.
+        </p>
+        <p>
+          Sekolah menerapkan kurikulum mandiri dengan menekankan pendidikan
+          agama Islam, namun tetap memperhatikan pengetahuan dasar dari ilmu
+          umum. Dalam pembelajaran, guru menerapkan
+          konsep <strong>Teach With Heart</strong>, yaitu mendidik dengan sepenuh hati
+          dan mendidik dengan cinta.
+        </p>
+        <p>
+          Program sekolah dirancang dengan memperhatikan empat ranah
+          perkembangan, yaitu {developmentAreas.areas.join(', ')}, dengan ranah
+          {' '}{developmentAreas.umbrella} sebagai payung besar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container about">
+      <h2 class="about__title">Visi</h2>
+      <div class="about__body">
+        <blockquote class="visi">
+          <p>{visi}</p>
+        </blockquote>
+        <p class="visi__link">
+          <a href="/tentang/visi-misi">Visi dan tujuh butir misi selengkapnya</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nilai-pendidikan">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Nilai pendidikan</h2>
+        <p>
+          Lima penekanan yang berjalan bersamaan dalam keseharian belajar anak.
+        </p>
+      </div>
+
+      <ValueList />
+    </div>
+  </section>
+
+  <section class="section section--tight section--muted">
+    <div class="container about">
+      <h2 class="about__title">Lingkungan sekolah</h2>
+      <div class="about__body prose">
+        <p>
+          Lingkungan sekolah dirancang sesuai dengan tujuan pendidikan agar
+          dapat dimanfaatkan siswa sebagai sumber belajar. Fasilitas yang
+          tersedia meliputi area olahraga, area bermain, dan area ibadah.
+        </p>
+        <p>
+          Sekolah berada di {site.address.village}, Kecamatan
+          {' '}{site.address.district}, {site.address.regency},
+          {' '}{site.address.province}.
+        </p>
+        <p>
+          <a href="/kontak">Alamat lengkap dan kontak sekolah</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 56rem) {
+    .about {
+      grid-template-columns: 18rem 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .about__title {
+    font-size: var(--text-h3);
+  }
+
+  .about__body {
+    max-width: var(--measure-prose);
+  }
+
+  .visi {
+    margin: 0;
+    padding-left: var(--space-5);
+    border-left: 3px solid var(--brand-green-600);
+    max-width: 40ch;
+  }
+
+  .visi p {
+    font-size: var(--text-lead);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+  }
+
+  .visi__link {
+    margin-top: var(--space-5);
+  }
+</style>

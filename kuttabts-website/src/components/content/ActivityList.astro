@@ -1,0 +1,97 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  activities: readonly CollectionEntry<'activities'>[];
+}
+
+const { activities } = Astro.props;
+
+const programLabels: Record<string, string> = {
+  kuttab: 'Kuttab',
+  tpq: 'TPQ',
+  tqa: 'TQA',
+  all: 'Semua program',
+};
+
+const dateFormatter = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+{
+  activities.length === 0 ? (
+    /* Empty state. Reached whenever no activity file is published, which is
+       the case at launch. It says what will appear here instead of showing an
+       invented entry. */
+    <p class="activity-empty">
+      Belum ada dokumentasi kegiatan yang dipublikasikan. Catatan kegiatan
+      sekolah akan muncul di bagian ini setelah kegiatan berjalan.
+    </p>
+  ) : (
+    <ul class="list-plain activity-list">
+      {activities.map((activity) => (
+        <li class="activity">
+          <p class="activity__meta">
+            <time datetime={activity.data.date.toISOString().slice(0, 10)}>
+              {dateFormatter.format(activity.data.date)}
+            </time>
+            <span aria-hidden="true">&middot;</span>
+            <span>{programLabels[activity.data.program]}</span>
+          </p>
+          <h3 class="activity__title">{activity.data.title}</h3>
+          <p class="activity__excerpt">{activity.data.excerpt}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .activity-empty {
+    max-width: var(--measure-prose);
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-media);
+    color: var(--text-secondary);
+  }
+
+  .activity-list {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .activity-list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  .activity {
+    padding-top: var(--space-4);
+    border-top: 2px solid var(--brand-green-600);
+  }
+
+  .activity__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+  }
+
+  .activity__title {
+    margin-top: var(--space-2);
+    font-size: var(--text-h3);
+  }
+
+  .activity__excerpt {
+    margin-top: var(--space-2);
+    color: var(--text-secondary);
+  }
+</style>

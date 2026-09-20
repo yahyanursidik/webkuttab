@@ -1,0 +1,36 @@
+---
+import BaseHead from '../components/global/BaseHead.astro';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+import SiteFooter from '../components/global/SiteFooter.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  withOrganizationSchema?: boolean;
+}
+
+const { title, description, path, withOrganizationSchema } = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      path={path}
+      withOrganizationSchema={withOrganizationSchema}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#konten">Lompat ke konten utama</a>
+    <SiteHeader />
+    <main id="konten">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

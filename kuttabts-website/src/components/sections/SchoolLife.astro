@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import ActivityList from '../content/ActivityList.astro';
+
+const activities = (await getCollection('activities', ({ data }) => data.published))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<section class="section section--muted" id="kegiatan">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Kegiatan sekolah</h2>
+      <p>
+        Catatan kegiatan yang benar-benar berjalan di Kuttab, TPQ, dan TQA,
+        lengkap dengan tanggal dan program yang menyelenggarakannya.
+      </p>
+    </div>
+
+    <ActivityList activities={activities} />
+  </div>
+</section>

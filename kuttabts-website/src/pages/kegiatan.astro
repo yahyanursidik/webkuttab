@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/content/PageHeader.astro';
+import ActivityList from '../components/content/ActivityList.astro';
+
+const activities = (await getCollection('activities', ({ data }) => data.published)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<BaseLayout
+  title="Kegiatan sekolah"
+  description="Dokumentasi kegiatan Kuttab Tarbiyah Sunnah serta TPQ dan TQA Madrasah Tarbiyah Sunnah di Selacau, Batujajar."
+  path="/kegiatan"
+>
+  <PageHeader
+    title="Kegiatan sekolah"
+    lead="Catatan kegiatan yang berjalan di Kuttab, TPQ, dan TQA, lengkap dengan tanggal dan program penyelenggaranya."
+    breadcrumbs={[{ label: 'Beranda', href: '/' }]}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <ActivityList activities={activities} />
+    </div>
+  </section>
+</BaseLayout>

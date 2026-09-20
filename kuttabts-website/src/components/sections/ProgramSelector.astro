@@ -1,0 +1,116 @@
+---
+import { programs } from '../../data/school';
+
+const kuttab = programs.find((p) => p.type === 'kuttab');
+const madrasahUnits = programs.filter((p) => p.type !== 'kuttab');
+---
+
+<section class="section section--surface" id="program">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Tiga program</h2>
+      <p>
+        Kuttab berjalan sebagai sekolah harian untuk kelas 1 sampai 6. TPQ dan
+        TQA adalah unit pembelajaran Al-Qur&rsquo;an dan ilmu diniyah di bawah
+        Madrasah Tarbiyah Sunnah.
+      </p>
+    </div>
+
+    {
+      /*
+        Kuttab is given the larger treatment because it is the daily school and
+        the only unit whose curriculum is published. TPQ and TQA share one block
+        rather than sitting in matching cards: the school has not yet supplied
+        what distinguishes them, and two cards with the same sentence would be
+        padding.
+      */
+    }
+    {
+      kuttab !== undefined && (
+        <article class="program program--lead">
+          <h3 class="program__title program__title--lead">
+            <a href={kuttab.href}>{kuttab.title}</a>
+          </h3>
+          <p class="program__summary program__summary--lead">{kuttab.summary}</p>
+        </article>
+      )
+    }
+
+    <article class="program program--units">
+      <h3 class="program__title">Madrasah Tarbiyah Sunnah</h3>
+      <p class="program__summary">
+        Pembelajaran Al-Qur&rsquo;an dan ilmu diniyah, diselenggarakan dalam dua
+        unit.
+      </p>
+      <ul class="list-plain program__unit-links">
+        {
+          madrasahUnits.map((unit) => (
+            <li>
+              <a href={unit.href}>{unit.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </div>
+</section>
+
+<style>
+  .program {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .program--lead {
+    margin-top: var(--space-6);
+    border-top-width: 3px;
+    border-top-color: var(--brand-green-600);
+  }
+
+  .program--units {
+    margin-top: var(--space-6);
+  }
+
+  .program__title {
+    font-size: var(--text-h3);
+  }
+
+  .program__title--lead {
+    font-size: var(--text-h2);
+  }
+
+  .program__title a {
+    color: var(--text-primary);
+    text-decoration-color: var(--border-strong);
+  }
+
+  .program__title a:hover {
+    color: var(--brand-green-700);
+    text-decoration-color: currentColor;
+  }
+
+  .program__summary {
+    margin-top: var(--space-3);
+    max-width: 48ch;
+    color: var(--text-secondary);
+  }
+
+  .program__summary--lead {
+    font-size: var(--text-lead);
+  }
+
+  .program__unit-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-6);
+    margin-top: var(--space-3);
+    font-weight: var(--weight-medium);
+  }
+
+  /* Standalone navigation links, so they carry a 44px tap target. */
+  .program__unit-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

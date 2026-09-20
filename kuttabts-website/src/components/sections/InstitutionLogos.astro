@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import logoKuttab from '../../assets/logo-kuttab-mark.png';
+import logoMadrasah from '../../assets/logo-madrasah-mark.png';
+import { site } from '../../data/site';
+
+/*
+  Both institutions the site speaks for. Each is the emblem cropped from the
+  supplied lockup, not redrawn or recoloured: the full lockups carry their own
+  wordmarks, which are illegible at this size and would duplicate the name set
+  as text beside them. Note that the two artworks use slightly different greens
+  and oranges from each other, and both are reproduced as given rather than
+  recoloured to the site palette.
+*/
+const institutions = [
+  {
+    image: logoKuttab,
+    name: 'Kuttab Tarbiyah Sunnah',
+    role: 'Sekolah harian untuk kelas 1 sampai 6',
+    href: '/program/kuttab',
+  },
+  {
+    image: logoMadrasah,
+    name: 'Madrasah Tarbiyah Sunnah',
+    role: 'Penyelenggara TPQ dan TQA',
+    href: '/program',
+  },
+];
+---
+
+<section class="section section--muted institutions">
+  <div class="container">
+    <h2 class="institutions__title">Dua lembaga, satu lingkungan belajar</h2>
+
+    <ul class="list-plain institutions__list">
+      {
+        institutions.map((item) => (
+          <li class="institution">
+            <Image
+              src={item.image}
+              alt={`Logo ${item.name}`}
+              widths={[96, 192]}
+              sizes="96px"
+              loading="lazy"
+              class="institution__logo"
+            />
+            <div class="institution__text">
+              <h3 class="institution__name">
+                <a href={item.href}>{item.name}</a>
+              </h3>
+              <p class="institution__role">{item.role}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="institutions__place">
+      Keduanya berada di {site.address.village}, Kecamatan{' '}
+      {site.address.district}, {site.address.regency}.
+    </p>
+  </div>
+</section>
+
+<style>
+  .institutions__title {
+    max-width: 22ch;
+    font-size: var(--text-h3);
+  }
+
+  .institutions__list {
+    display: grid;
+    gap: var(--space-7);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .institutions__list {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+    }
+  }
+
+  /* The logo sits beside its label rather than centred above it, so the pair
+     reads as two identified bodies instead of a decorative logo wall. */
+  .institution {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border-strong);
+  }
+
+  .institution__logo {
+    flex: none;
+    width: 72px;
+    height: auto;
+  }
+
+  @media (min-width: 48rem) {
+    .institution__logo {
+      width: 96px;
+    }
+  }
+
+  .institution__name {
+    font-size: var(--text-h3);
+  }
+
+  .institution__name a {
+    color: var(--text-primary);
+    text-decoration-color: var(--border-strong);
+  }
+
+  .institution__name a:hover {
+    color: var(--brand-green-700);
+    text-decoration-color: currentColor;
+  }
+
+  .institution__role {
+    margin-top: var(--space-2);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .institutions__place {
+    margin-top: var(--space-7);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>

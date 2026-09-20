@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/content/PageHeader.astro';
+import { visi, misi, ACADEMIC_YEAR } from '../../data/school';
+---
+
+<BaseLayout
+  title="Visi dan misi"
+  description="Visi dan misi Kuttab Tarbiyah Sunnah sebagaimana tercantum dalam kurikulum operasional satuan pendidikan tahun ajaran 2026/2027."
+  path="/tentang/visi-misi"
+>
+  <PageHeader
+    title="Visi dan misi"
+    lead={`Visi dan misi Kuttab Tarbiyah Sunnah sebagaimana tercantum dalam kurikulum operasional satuan pendidikan tahun ajaran ${ACADEMIC_YEAR}.`}
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Tentang sekolah', href: '/tentang' },
+    ]}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <h2 class="block-label">Visi</h2>
+      <blockquote class="visi">
+        <p>{visi}</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2 class="block-label">Misi</h2>
+      <p class="misi__intro">
+        Misi adalah cara sekolah meraih visinya, dijabarkan dalam program dan
+        kegiatan.
+      </p>
+      <ol class="misi">
+        {misi.map((item) => <li class="misi__item">{item}</li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container prose">
+      <p>
+        <a href="/pendidikan">Lihat bagaimana misi ini dijalankan di kelas</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .block-label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+
+  /* The visi is the one genuinely quoted sentence on the site, so it is set
+     larger than body copy and marked with the brand rule rather than quotation
+     marks, which would fight the Indonesian typography. */
+  .visi {
+    margin: var(--space-5) 0 0;
+    padding-left: var(--space-5);
+    border-left: 3px solid var(--brand-green-600);
+    max-width: 38ch;
+  }
+
+  .visi p {
+    font-size: var(--text-h3);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+  }
+
+  .misi__intro {
+    margin-top: var(--space-4);
+    max-width: var(--measure-prose);
+    color: var(--text-secondary);
+  }
+
+  .misi {
+    counter-reset: misi;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+    max-width: var(--measure-prose);
+  }
+
+  .misi__item {
+    counter-increment: misi;
+    position: relative;
+    padding: var(--space-4) 0 var(--space-4) var(--space-8);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .misi__item:last-child {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .misi__item::before {
+    content: counter(misi);
+    position: absolute;
+    left: 0;
+    top: var(--space-4);
+    width: var(--space-6);
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--weight-semibold);
+  }
+</style>

@@ -1,0 +1,111 @@
+/*
+  Design tokens for kuttabts.sch.id
+  Source of truth: docs/02-DESIGN-SYSTEM.md in the website brief.
+  Every value here is declared once. Components never hard-code a hex value.
+*/
+
+:root {
+  /* --- Brand: green is the principal identity and action color --- */
+  --brand-green-700: #355326;
+  --brand-green-600: #446832;
+  --brand-green-100: #eaf0e5;
+
+  /* --- Brand: orange is the secondary accent, used sparingly --- */
+  --brand-orange-700: #ca6323;
+  --brand-orange-500: #f48120;
+  --brand-orange-100: #fff0e2;
+
+  /* --- Brand: yellow is limited to small highlights --- */
+  --brand-yellow-500: #e8c339;
+  --brand-yellow-100: #fbf4d7;
+
+  /* --- Neutrals carry roughly 70% of every page --- */
+  --bg-page: #fcfbf7;
+  --bg-surface: #ffffff;
+  --bg-muted: #f4f1e9;
+
+  --text-primary: #20251d;
+  --text-secondary: #646b5f;
+  --text-on-dark: #fcfbf7;
+  --border-subtle: #dddcce;
+  --border-strong: #c3c2b1;
+
+  /* --- Actions --- */
+  --action-primary: #446832;
+  --action-primary-hover: #355326;
+  --action-secondary: #f48120;
+  --action-secondary-hover: #ca6323;
+
+  /* Focus ring. Measured: #20251d reaches 15.09:1 against the page cream but
+     only 2.43:1 against green-600, so dark-filled controls override this to
+     --focus-ring-inverse (6.20:1 on green, 3.81:1 on burnt orange). Every
+     focused control therefore clears the 3:1 non-text minimum. */
+  --focus-ring: #20251d;
+  --focus-ring-inverse: #fcfbf7;
+
+  /* --- Typography ---
+     One family only. Plus Jakarta Sans is humanist and slightly warm, which
+     matches the "warm, grounded" direction, and its wide Latin coverage keeps
+     Indonesian text comfortable at body sizes. */
+  --font-sans: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui,
+    -apple-system, 'Segoe UI', sans-serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lead: clamp(1.125rem, 0.4vw + 1.05rem, 1.25rem);
+  --text-h3: clamp(1.375rem, 0.8vw + 1.2rem, 1.625rem);
+  --text-h2: clamp(1.875rem, 2vw + 1.3rem, 2.5rem);
+  --text-h1: clamp(2.25rem, 3.2vw + 1.3rem, 4rem);
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.65;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --measure-prose: 65ch;
+  --measure-narrow: 52ch;
+
+  /* --- Spacing scale --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5.5rem;
+
+  /* Section rhythm: 56-80px mobile, 88-128px desktop */
+  --section-y: clamp(3.5rem, 6vw, 8rem);
+  --section-y-tight: clamp(2.75rem, 4vw, 5.5rem);
+
+  /* --- Layout --- */
+  --container: 75rem; /* 1200px */
+  --container-article: 46rem; /* 736px */
+  --gutter: clamp(1.25rem, 3vw, 2.5rem);
+
+  /* --- Radius: small and deliberate, never the page's identity --- */
+  --radius-control: 8px;
+  --radius-media: 14px;
+  --radius-pill: 999px; /* filter chips only */
+
+  /* --- Elevation: border first, shadow only for genuinely lifted surfaces --- */
+  --shadow-raised: 0 1px 2px rgb(32 37 29 / 6%), 0 4px 12px rgb(32 37 29 / 5%);
+
+  /* --- Motion --- */
+  --ease: cubic-bezier(0.2, 0, 0.2, 1);
+  --duration: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration: 1ms;
+  }
+}

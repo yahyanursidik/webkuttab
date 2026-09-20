@@ -1,0 +1,91 @@
+---
+import { dailySchedule, ACADEMIC_YEAR } from '../../data/school';
+---
+
+{
+  /*
+    A real table, because this is tabular data with a header row and a parent
+    will scan down the time column. Breaks carry no jam number in the source
+    document, so their cell is left empty rather than invented.
+  */
+}
+<table class="schedule">
+  <caption class="schedule__caption">
+    Jam pembelajaran Kuttab Tarbiyah Sunnah, tahun ajaran {ACADEMIC_YEAR}
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col" class="schedule__jam">Jam</th>
+      <th scope="col">Waktu</th>
+      <th scope="col">Kegiatan</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      dailySchedule.map((row) => (
+        <tr class={row.jam === null ? 'schedule__row schedule__row--break' : 'schedule__row'}>
+          <td class="schedule__jam">{row.jam ?? ''}</td>
+          <td class="schedule__time">{row.time}</td>
+          <td>{row.activity}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<style>
+  .schedule {
+    width: 100%;
+    max-width: 34rem;
+    margin-top: var(--space-6);
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .schedule__caption {
+    margin-bottom: var(--space-4);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    text-align: left;
+  }
+
+  .schedule th {
+    padding: var(--space-2) var(--space-3) var(--space-3);
+    border-bottom: 2px solid var(--brand-green-600);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    text-align: left;
+  }
+
+  .schedule td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+
+  .schedule th:first-child,
+  .schedule td:first-child {
+    padding-left: 0;
+  }
+
+  .schedule__jam {
+    width: 3rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .schedule__time {
+    width: 8.5rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Breaks are set apart by weight and background, not by a coloured stripe,
+     so the table still reads correctly in monochrome. */
+  .schedule__row--break td {
+    background-color: var(--bg-muted);
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+</style>

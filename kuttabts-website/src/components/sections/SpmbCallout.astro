@@ -1,0 +1,81 @@
+---
+import { ACADEMIC_YEAR } from '../../data/school';
+import { whatsappUrl } from '../../data/site';
+
+const wa = whatsappUrl(
+  `Assalamu'alaikum, saya ingin menanyakan penerimaan murid baru tahun ajaran ${ACADEMIC_YEAR}.`,
+);
+---
+
+<section class="section spmb" id="spmb">
+  <div class="container spmb__inner">
+    <h2 class="spmb__title">Penerimaan murid dan santri baru</h2>
+    <p class="spmb__body">
+      Persyaratan, tahapan, dan jadwal penerimaan tahun ajaran {ACADEMIC_YEAR}{' '}
+      diumumkan langsung oleh sekolah. Hubungi kami untuk memastikan informasi
+      yang berlaku saat ini sebelum mendaftar.
+    </p>
+    {
+      /* Only a channel that exists is rendered. When the school supplies a
+         WhatsApp number the button appears; until then the anchor to the
+         address block is the one real destination available. */
+    }
+    <div class="button-row spmb__actions">
+      {
+        wa !== null && (
+          <a class="button button--warm" href={wa}>
+            Tanya admin lewat WhatsApp
+          </a>
+        )
+      }
+      <a class="button button--secondary spmb__contact" href="#kontak">
+        Lihat alamat dan kontak sekolah
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /*
+    The page's one strong colour moment, and the only place a solid brand fill
+    is used. It sits immediately before the contact block so the two read as a
+    single closing move.
+  */
+  .spmb {
+    background-color: var(--brand-green-600);
+    color: var(--text-on-dark);
+  }
+
+  .spmb__inner {
+    max-width: 48rem;
+  }
+
+  .spmb__title {
+    color: var(--text-on-dark);
+  }
+
+  .spmb__body {
+    margin-top: var(--space-5);
+    max-width: 52ch;
+    font-size: var(--text-lead);
+  }
+
+  .spmb__actions {
+    margin-top: var(--space-6);
+  }
+
+  /* On green, the outlined button flips to the cream side of the palette. */
+  .spmb__contact {
+    border-color: var(--text-on-dark);
+    color: var(--text-on-dark);
+  }
+
+  .spmb__contact:hover {
+    background-color: var(--brand-green-700);
+    border-color: var(--text-on-dark);
+  }
+
+  .spmb :global(.button--secondary:focus-visible) {
+    outline-color: var(--focus-ring-inverse);
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+import { tahfizhAllocation, kuttabSubjectGroups } from '../../data/school';
+---
+
+<section class="section section--green">
+  <div class="container quran">
+    <div class="quran__statement">
+      <h2>Al-Qur&rsquo;an membuka dan menutup hari belajar</h2>
+      <p class="quran__body">
+        Pada struktur kurikulum Kuttab tahun ajaran {tahfizhAllocation.academicYear},
+        Tahfizh Al-Qur&rsquo;an memperoleh alokasi
+        {' '}{tahfizhAllocation.jp} {tahfizhAllocation.unit} pada
+        {' '}{tahfizhAllocation.scope}. Angka ini berlaku untuk Kuttab dan tidak
+        menggambarkan program TPQ maupun TQA.
+      </p>
+    </div>
+
+    <div class="quran__subjects">
+      <h3 class="quran__subjects-title">
+        Mata pelajaran pada kurikulum {tahfizhAllocation.academicYear}
+      </h3>
+      <dl class="subject-groups">
+        {
+          kuttabSubjectGroups.map((group) => (
+            <div class="subject-groups__row">
+              <dt>{group.label}</dt>
+              <dd>{group.subjects.join(', ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  /*
+    Two unequal columns rather than the same full-width stack as the section
+    above it, so the page rhythm changes at the point where the page moves from
+    values to verifiable curriculum detail.
+  */
+  .quran {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  @media (min-width: 56rem) {
+    .quran {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .quran__statement h2 {
+    max-width: 16ch;
+  }
+
+  .quran__body {
+    margin-top: var(--space-5);
+    max-width: 46ch;
+    font-size: var(--text-lead);
+  }
+
+  .quran__subjects {
+    padding: var(--space-6);
+    border-radius: var(--radius-media);
+    background-color: var(--bg-surface);
+  }
+
+  .quran__subjects-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+
+  .subject-groups {
+    margin: var(--space-4) 0 0;
+  }
+
+  .subject-groups__row {
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .subject-groups__row:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .subject-groups__row dt {
+    font-weight: var(--weight-semibold);
+  }
+
+  .subject-groups__row dd {
+    margin: var(--space-1) 0 0;
+    color: var(--text-secondary);
+  }
+</style>

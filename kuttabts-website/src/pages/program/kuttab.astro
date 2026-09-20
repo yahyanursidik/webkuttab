@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/content/PageHeader.astro';
+import CurriculumList from '../../components/content/CurriculumList.astro';
+import ValueList from '../../components/content/ValueList.astro';
+import ScheduleTable from '../../components/content/ScheduleTable.astro';
+import {
+  tahfizhAllocation,
+  weeklyLoad,
+  developmentAreas,
+  admissionNote,
+  ACADEMIC_YEAR,
+} from '../../data/school';
+---
+
+<BaseLayout
+  title="Kuttab Tarbiyah Sunnah"
+  description={`Sekolah Islam berizin PKBM di Selacau, Batujajar. Kurikulum mandiri, Tahfizh Al-Qur'an, ilmu diniyah, dan pengetahuan dasar umum pada tahun ajaran ${ACADEMIC_YEAR}.`}
+  path="/program/kuttab"
+>
+  <PageHeader
+    eyebrow="Program"
+    title="Kuttab Tarbiyah Sunnah"
+    lead="Sekolah Islam dengan izin berbentuk PKBM, terbuka bagi siswa dengan berbagai latar belakang, yang menerapkan nilai-nilai tsaqofah Islam."
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Program', href: '/program' },
+    ]}
+  />
+
+  <section class="section section--tight">
+    <div class="container prose">
+      <h2>Bentuk penyelenggaraan</h2>
+      <p>
+        Kuttab Tarbiyah Sunnah lahir dari idealisme untuk menyelenggarakan
+        sekolah Islam yang bermutu, berlandaskan Al-Qur'an dan As-Sunnah, serta
+        mengikuti manhaj Ahlus Sunnah wal Jama'ah.
+      </p>
+      <p>
+        Sekolah menerapkan kurikulum mandiri dengan menekankan pendidikan agama
+        Islam, namun tetap memperhatikan pengetahuan dasar dari ilmu umum.
+      </p>
+      <p>
+        Program sekolah dirancang dengan memperhatikan empat ranah
+        perkembangan, yaitu {developmentAreas.areas.join(', ')}, dengan ranah
+        {' '}{developmentAreas.umbrella} sebagai payung besar.
+      </p>
+      <p>
+        <a href="/tentang/visi-misi">Visi dan misi sekolah</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Struktur kurikulum {ACADEMIC_YEAR}</h2>
+        <p>
+          Mata pelajaran berikut tercantum pada struktur kurikulum operasional
+          satuan pendidikan tahun ajaran {ACADEMIC_YEAR}.
+        </p>
+      </div>
+
+      <CurriculumList />
+
+      <dl class="load">
+        {
+          weeklyLoad.map((row) => (
+            <div>
+              <dt class="load__term">{row.classes}</dt>
+              <dd class="load__desc">{row.jp} JP per pekan</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <p class="curriculum__note">
+        Tahfizh Al-Qur'an memperoleh alokasi {tahfizhAllocation.jp}
+        {' '}{tahfizhAllocation.unit} pada {tahfizhAllocation.scope}, menurut
+        struktur kurikulum tahun ajaran {tahfizhAllocation.academicYear}.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container schedule-block">
+      <div class="schedule-block__intro">
+        <h2>Hari belajar</h2>
+        <p class="lead">
+          Pukul 07.00 sampai 13.00, dibuka dan ditutup dengan Tahfizh
+          Al-Qur'an.
+        </p>
+      </div>
+      <ScheduleTable />
+    </div>
+  </section>
+
+  <section class="section section--muted">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Penekanan pendidikan</h2>
+      </div>
+      <ValueList />
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container prose">
+      <h2>Awal tahun ajaran</h2>
+      <p>
+        Tahun pelajaran dimulai pada bulan Juli, mengikuti kalender pendidikan
+        Provinsi Jawa Barat dan Dinas Pendidikan Kabupaten Bandung Barat.
+      </p>
+      <p>
+        Tahun ajaran dibuka dengan masa matrikulasi selama satu sampai dua
+        pekan untuk penguatan adab secara teori dan praktik, penyesuaian
+        belajar, serta asesmen diagnostik awal.
+      </p>
+      <p class="admission-note">{admissionNote}</p>
+      <p>
+        <a href="/#spmb">Informasi penerimaan murid baru</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .load {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-8);
+    margin: var(--space-6) 0 0;
+  }
+
+  .load__term {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .load__desc {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-h3);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  /* The orange left rule marks a citation: the sentence beside it restates a
+     figure from the curriculum document. It is a source marker, not card
+     decoration, which is why no other block carries one. */
+  .curriculum__note {
+    max-width: var(--measure-prose);
+    margin-top: var(--space-6);
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--brand-orange-500);
+    color: var(--text-secondary);
+  }
+
+  /* A parent needs this before applying, so it is set apart from the
+     surrounding prose rather than buried in it. */
+  .admission-note {
+    padding: var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-media);
+    background-color: var(--bg-surface);
+  }
+
+  .schedule-block {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 56rem) {
+    .schedule-block {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .schedule-block__intro h2 {
+    max-width: 12ch;
+  }
+
+  .schedule-block__intro .lead {
+    margin-top: var(--space-5);
+    max-width: 40ch;
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import { site, whatsappUrl } from '../../data/site';
+
+const wa = whatsappUrl();
+const hasChannel =
+  wa !== null || site.email !== null || site.mapsUrl !== null || site.instagram !== null;
+---
+
+<section class="section section--surface" id="kontak">
+  <div class="container contact">
+    <div class="section-heading contact__heading">
+      <h2>Lokasi dan kontak</h2>
+      <p>
+        Sekolah berada di {site.address.village}, Kecamatan{' '}
+        {site.address.district}. Orang tua dipersilakan berkunjung untuk melihat
+        langsung kegiatan belajar.
+      </p>
+    </div>
+
+    <div class="contact__details">
+      <h3 class="contact__label">Alamat</h3>
+      <address class="contact__address">
+        {site.name}<br />
+        {site.address.street}<br />
+        {site.address.village}, Kecamatan {site.address.district}<br />
+        {site.address.regency}, {site.address.province}
+      </address>
+
+      {
+        hasChannel && (
+          <>
+            <h3 class="contact__label contact__label--spaced">Saluran kontak</h3>
+            <ul class="list-plain contact__channels">
+              {wa !== null && (
+                <li>
+                  <a href={wa}>WhatsApp sekolah</a>
+                </li>
+              )}
+              {site.email !== null && (
+                <li>
+                  <a href={`mailto:${site.email}`}>{site.email}</a>
+                </li>
+              )}
+              {site.instagram !== null && (
+                <li>
+                  <a href={site.instagram} rel="noopener">Instagram sekolah</a>
+                </li>
+              )}
+              {site.mapsUrl !== null && (
+                <li>
+                  <a href={site.mapsUrl} rel="noopener">Buka lokasi di peta</a>
+                </li>
+              )}
+            </ul>
+          </>
+        )
+      }
+
+      <p class="contact__more">
+        <a href="/kontak">Halaman kontak dan lokasi</a>
+      </p>
+
+      {site.serviceHours !== null && (
+        <>
+          <h3 class="contact__label contact__label--spaced">Jam layanan</h3>
+          <p class="text-muted">{site.serviceHours}</p>
+        </>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  @media (min-width: 56rem) {
+    .contact {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .contact__heading {
+    max-width: 34ch;
+  }
+
+  .contact__details {
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-media);
+    background-color: var(--bg-page);
+  }
+
+  .contact__label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+
+  .contact__label--spaced {
+    margin-top: var(--space-5);
+  }
+
+  .contact__address {
+    margin-top: var(--space-2);
+    font-style: normal;
+    line-height: var(--leading-normal);
+  }
+
+  .contact__more {
+    margin-top: var(--space-5);
+  }
+
+  .contact__channels {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+</style>

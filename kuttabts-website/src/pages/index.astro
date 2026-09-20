@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/sections/HomeHero.astro';
+import ProgramSelector from '../components/sections/ProgramSelector.astro';
+import InstitutionLogos from '../components/sections/InstitutionLogos.astro';
+import EducationValues from '../components/sections/EducationValues.astro';
+import QuranSection from '../components/sections/QuranSection.astro';
+import LearningApproach from '../components/sections/LearningApproach.astro';
+import SchoolLife from '../components/sections/SchoolLife.astro';
+import SpmbCallout from '../components/sections/SpmbCallout.astro';
+import ContactBlock from '../components/sections/ContactBlock.astro';
+---
+
+<BaseLayout
+  title="Kuttab Tarbiyah Sunnah, Selacau Batujajar"
+  description="Sekolah Kuttab dan Madrasah Tarbiyah Sunnah di Selacau, Batujajar, Bandung Barat. Al-Qur'an, ilmu diniyah, dan pengetahuan umum dalam satu hari belajar."
+  path="/"
+  withOrganizationSchema
+>
+  <HomeHero />
+  <ProgramSelector />
+  <InstitutionLogos />
+  <EducationValues />
+  <QuranSection />
+  <LearningApproach />
+  <SchoolLife />
+  <SpmbCallout />
+  <ContactBlock />
+</BaseLayout>

@@ -1,0 +1,145 @@
+---
+import { site } from '../../data/site';
+
+/*
+  The hero carries the school's own profile video.
+
+  It does not autoplay, and that is deliberate: the PRD (section 12) and the
+  vibe-coding rules (section 14) both forbid autoplay video on the homepage,
+  and this clip is 3 minutes 20 seconds of narrated school tour, which is
+  something a parent chooses to watch rather than background motion.
+
+  With `controls` and `preload="none"` the browser paints the poster and its
+  own play button, downloads nothing until someone presses it, and gives
+  keyboard and screen-reader support for free. No JavaScript is involved.
+*/
+const video = {
+  src: '/video/profil-sekolah.mp4',
+  poster: '/video/profil-sekolah-poster.jpg',
+  width: 474,
+  height: 850,
+  duration: '3 menit 20 detik',
+  durationISO: 'PT3M20S',
+};
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <p class="hero__unit">{site.name}</p>
+      <h1 class="hero__title">
+        Pendidikan yang menumbuhkan Al-Qur&rsquo;an, adab, ilmu, dan
+        kemandirian.
+      </h1>
+      <p class="hero__body">
+        Sekolah Islam berizin PKBM di {site.address.village}, Kecamatan{' '}
+        {site.address.district}, {site.address.regency}, bersama TPQ dan TQA
+        Madrasah Tarbiyah Sunnah.
+      </p>
+
+      <div class="button-row hero__actions">
+        <a class="button button--primary" href="#program">Lihat tiga program</a>
+        <a class="button button--secondary" href="#spmb">Informasi SPMB</a>
+      </div>
+    </div>
+
+    <figure class="hero__media">
+      <video
+        class="hero__video"
+        controls
+        preload="none"
+        playsinline
+        aria-label={`Video profil Kuttab Tarbiyah Sunnah, durasi ${video.duration}`}
+        poster={video.poster}
+        width={video.width}
+        height={video.height}
+      >
+        <source src={video.src} type="video/mp4" />
+        <p>
+          Peramban Anda tidak dapat memutar video ini.
+          <a href={video.src}>Unduh video profil sekolah</a>.
+        </p>
+      </video>
+      <figcaption class="hero__caption">
+        Video profil sekolah, {video.duration}. Takarir bahasa Indonesia
+        tersedia di dalam video.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 5vw, 5rem);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  /* The video column is sized in its own right rather than as a fraction, so
+     the portrait clip never stretches wider than it should and the sentence
+     keeps a comfortable measure beside it. */
+  @media (min-width: 56rem) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) 18rem;
+      gap: var(--space-9);
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) 21rem;
+    }
+  }
+
+  .hero__text {
+    max-width: 40rem;
+  }
+
+  .hero__unit {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .hero__title {
+    margin-top: var(--space-4);
+    max-width: 18ch;
+  }
+
+  .hero__body {
+    margin-top: var(--space-5);
+    max-width: 52ch;
+    color: var(--text-secondary);
+    font-size: var(--text-lead);
+  }
+
+  .hero__actions {
+    margin-top: var(--space-7);
+  }
+
+  .hero__media {
+    margin: 0;
+    max-width: 21rem;
+  }
+
+  .hero__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 474 / 850;
+    border-radius: var(--radius-media);
+    background-color: var(--bg-muted);
+  }
+
+  .hero__caption {
+    margin-top: var(--space-3);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    max-width: 34ch;
+  }
+</style>

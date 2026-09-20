@@ -1,0 +1,310 @@
+@import './tokens.css';
+
+/*
+  Plus Jakarta Sans, variable weight axis, latin subset only. The Fontsource
+  stylesheet also ships latin-ext, vietnamese and cyrillic faces, which this
+  site's Indonesian copy never uses, so the face is declared here instead and
+  only one file is deployed. Self-hosted, so no third-party request.
+*/
+@font-face {
+  font-family: 'Plus Jakarta Sans Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('/fonts/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-h1);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  letter-spacing: -0.01em;
+}
+
+p,
+ul,
+ol,
+dl {
+  margin: 0;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Links are green with a persistent underline, so color is never the only
+   signal that something is a link. */
+a {
+  color: var(--brand-green-700);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-thickness var(--duration) var(--ease);
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Controls filled with green or burnt orange flip the ring to cream. */
+:where(.button--primary, .button--warm):focus-visible {
+  outline-color: var(--focus-ring-inverse);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+hr {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background-color: var(--border-subtle);
+}
+
+::selection {
+  background-color: var(--brand-green-100);
+  color: var(--text-primary);
+}
+
+/* ---------- Layout primitives ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.prose {
+  max-width: var(--measure-prose);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--tight {
+  padding-block: var(--section-y-tight);
+}
+
+.section--surface {
+  background-color: var(--bg-surface);
+}
+
+.section--muted {
+  background-color: var(--bg-muted);
+}
+
+.section--green {
+  background-color: var(--brand-green-100);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-4);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background-color: var(--brand-green-600);
+  color: var(--text-on-dark);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--space-5)));
+  transition: transform var(--duration) var(--ease);
+}
+
+.skip-link:focus-visible {
+  outline-color: var(--focus-ring-inverse);
+  transform: translateY(0);
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* tap target */
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.button--primary {
+  background-color: var(--action-primary);
+  color: var(--text-on-dark);
+}
+
+.button--primary:hover {
+  background-color: var(--action-primary-hover);
+}
+
+/* Outlined green rather than filled orange: orange-500 is 2.53:1 on cream, so
+   it can never carry text, and filling every CTA with it would also flatten
+   the hierarchy between the primary and secondary action. */
+.button--secondary {
+  border-color: var(--brand-green-600);
+  background-color: transparent;
+  color: var(--brand-green-700);
+}
+
+.button--secondary:hover {
+  background-color: var(--brand-green-100);
+  border-color: var(--brand-green-700);
+}
+
+/* Filled orange is only safe with the near-black text on top (5.96:1). */
+.button--warm {
+  background-color: var(--action-secondary);
+  color: var(--text-primary);
+}
+
+.button--warm:hover {
+  background-color: var(--action-secondary-hover);
+  color: var(--text-on-dark);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---------- Section heading motif ----------
+   The repeated identity gesture: a hairline rule across the heading block with
+   a short orange segment overlapping its start. It marks where an editorial
+   section begins without wrapping anything in a card, and it is the single job
+   orange does on light backgrounds (decorative weight only, never a lone
+   carrier of meaning). */
+.section-heading {
+  max-width: var(--measure-prose);
+}
+
+.section-heading::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-bottom: var(--space-5);
+  background-image: linear-gradient(
+    to right,
+    var(--action-secondary) 0 2.5rem,
+    var(--border-subtle) 2.5rem 100%
+  );
+}
+
+.section-heading > p {
+  margin-top: var(--space-4);
+  max-width: var(--measure-prose);
+  color: var(--text-secondary);
+  font-size: var(--text-lead);
+}
+
+/* ---------- Utilities used in more than one place ---------- */
+
+.lead {
+  font-size: var(--text-lead);
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-secondary);
+}
+
+.list-plain {
+  padding: 0;
+  list-style: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

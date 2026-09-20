@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/content/PageHeader.astro';
+import { programs } from '../../data/school';
+import { site } from '../../data/site';
+
+const kuttab = programs.find((p) => p.type === 'kuttab');
+const madrasahUnits = programs.filter((p) => p.type !== 'kuttab');
+---
+
+<BaseLayout
+  title="Program pendidikan"
+  description="Tiga program di Selacau, Batujajar: Kuttab Tarbiyah Sunnah sebagai sekolah harian, serta TPQ dan TQA di bawah Madrasah Tarbiyah Sunnah."
+  path="/program"
+>
+  <PageHeader
+    title="Program pendidikan"
+    lead="Kuttab berjalan sebagai sekolah harian untuk kelas 1 sampai 6. TPQ dan TQA adalah unit pembelajaran Al-Qur'an dan ilmu diniyah di bawah Madrasah Tarbiyah Sunnah."
+    breadcrumbs={[{ label: 'Beranda', href: '/' }]}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      {
+        kuttab !== undefined && (
+          <article class="unit unit--lead">
+            <h2 class="unit__title">
+              <a href={kuttab.href}>{kuttab.title}</a>
+            </h2>
+            <p class="unit__summary">{kuttab.summary}</p>
+            <p class="unit__detail">
+              Kurikulum operasional tahun ajaran 2026/2027 sudah
+              dipublikasikan, termasuk mata pelajaran, jadwal harian, dan
+              alokasi Tahfizh Al-Qur&rsquo;an.
+            </p>
+          </article>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section section--surface section--tight">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Madrasah Tarbiyah Sunnah</h2>
+        <p>
+          Dua unit pembelajaran Al-Qur&rsquo;an dan ilmu diniyah di{' '}
+          {site.address.village}, Kecamatan {site.address.district}.
+        </p>
+      </div>
+
+      <div class="unit-pair">
+        {
+          madrasahUnits.map((unit) => (
+            <article class="unit">
+              <h3 class="unit__title unit__title--small">
+                <a href={unit.href}>{unit.title}</a>
+              </h3>
+              <p class="unit__summary">{unit.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .unit--lead {
+    padding-top: var(--space-5);
+    border-top: 3px solid var(--brand-green-600);
+  }
+
+  .unit__title {
+    font-size: var(--text-h2);
+  }
+
+  .unit__title--small {
+    font-size: var(--text-h3);
+  }
+
+  .unit__title a {
+    color: var(--text-primary);
+    text-decoration-color: var(--border-strong);
+  }
+
+  .unit__title a:hover {
+    color: var(--brand-green-700);
+    text-decoration-color: currentColor;
+  }
+
+  .unit__summary {
+    margin-top: var(--space-3);
+    max-width: 52ch;
+    font-size: var(--text-lead);
+    color: var(--text-secondary);
+  }
+
+  .unit__title--small + .unit__summary {
+    font-size: var(--text-base);
+  }
+
+  .unit__detail {
+    margin-top: var(--space-4);
+    max-width: 52ch;
+    color: var(--text-secondary);
+  }
+
+  /* Two columns here, unlike the homepage, because this page's whole job is to
+     compare the units side by side. */
+  .unit-pair {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .unit-pair {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-7);
+    }
+  }
+
+  .unit-pair .unit {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+</style>

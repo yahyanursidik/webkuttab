@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/content/PageHeader.astro';
+import { site, whatsappUrl } from '../data/site';
+
+const wa = whatsappUrl();
+const hasChannel =
+  wa !== null || site.email !== null || site.mapsUrl !== null || site.instagram !== null;
+---
+
+<BaseLayout
+  title="Kontak dan lokasi"
+  description={`Alamat Kuttab Tarbiyah Sunnah dan Madrasah Tarbiyah Sunnah di ${site.address.village}, Kecamatan ${site.address.district}, ${site.address.regency}.`}
+  path="/kontak"
+>
+  <PageHeader
+    title="Kontak dan lokasi"
+    lead="Orang tua dipersilakan berkunjung untuk melihat langsung kegiatan belajar di sekolah."
+    breadcrumbs={[{ label: 'Beranda', href: '/' }]}
+  />
+
+  <section class="section section--tight">
+    <div class="container contact">
+      <div class="contact__block">
+        <h2 class="contact__label">Alamat</h2>
+        <address class="contact__address">
+          {site.name}<br />
+          {site.madrasahName}<br />
+          {site.address.street}<br />
+          {site.address.village}, Kecamatan {site.address.district}<br />
+          {site.address.regency}, {site.address.province}
+        </address>
+      </div>
+
+      {
+        /* Channels render one by one, only when the school has supplied them.
+           A missing channel leaves no heading and no empty row behind. */
+      }
+      {
+        hasChannel && (
+          <div class="contact__block">
+            <h2 class="contact__label">Saluran kontak</h2>
+            <ul class="list-plain contact__channels">
+              {wa !== null && (
+                <li>
+                  <a href={wa}>WhatsApp sekolah</a>
+                </li>
+              )}
+              {site.email !== null && (
+                <li>
+                  <a href={`mailto:${site.email}`}>{site.email}</a>
+                </li>
+              )}
+              {site.instagram !== null && (
+                <li>
+                  <a href={site.instagram} rel="noopener">Instagram sekolah</a>
+                </li>
+              )}
+              {site.mapsUrl !== null && (
+                <li>
+                  <a href={site.mapsUrl} rel="noopener">Buka lokasi di peta</a>
+                </li>
+              )}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        site.serviceHours !== null && (
+          <div class="contact__block">
+            <h2 class="contact__label">Jam layanan</h2>
+            <p class="text-muted">{site.serviceHours}</p>
+          </div>
+        )
+      }
+
+      <div class="contact__block">
+        <h2 class="contact__label">Penerimaan murid baru</h2>
+        <p class="text-muted contact__spmb">
+          Persyaratan dan jadwal penerimaan diumumkan langsung oleh sekolah.
+        </p>
+        <p><a href="/#spmb">Informasi SPMB</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .contact {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-7) var(--space-9);
+      align-items: start;
+    }
+  }
+
+  .contact__block {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .contact__label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+  }
+
+  .contact__address {
+    margin-top: var(--space-3);
+    font-style: normal;
+    line-height: var(--leading-normal);
+  }
+
+  .contact__channels {
+    display: grid;
+    margin-top: var(--space-2);
+  }
+
+  .contact__channels a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .contact__spmb {
+    margin-top: var(--space-3);
+    max-width: 44ch;
+  }
+</style>
